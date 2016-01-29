@@ -1,0 +1,28 @@
+{
+  "name": "object-stream-infer-types",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shawnbot/object-stream-infer-types.git"
+  },
+  "author": "Shawn Allen <shawn.allen@gsa.gov>",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/shawnbot/object-stream-infer-types/issues"
+  },
+  "homepage": "https://github.com/shawnbot/object-stream-infer-types#readme",
+  "devDependencies": {
+    "fast-csv": "^1.0.0",
+    "mocha": "^2.4.5",
+    "stream-array": "^1.1.1"
+  },
+  "dependencies": {
+    "datalib": "^1.5.9",
+    "through2": "^2.0.0"
+  }
+}
