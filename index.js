@@ -1,3 +1,4 @@
+// jshint -W014
 var through = require('through2').obj;
 var type = require('datalib').type;
 
