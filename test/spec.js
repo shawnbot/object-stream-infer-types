@@ -97,4 +97,41 @@ describe('infer()', function() {
 
   });
 
+  it('respects {limit: -1}', function(done) {
+
+    var data = [];
+    var i;
+    var alpha = 'abcdefghijklmnopqrstuvwxyz';
+    for (i = 0; i < 20; i++) {
+      data.push({x: String(1 + Math.random()), y: alpha[i]});
+    }
+    for (true; i < 100; i++) {
+      data.push({x: null, y: null});
+    }
+
+    var inferred;
+    var read = 0;
+
+    streamify(data)
+      .pipe(infer({
+        limit: -1
+      }))
+      .on('infer', function(types) {
+        inferred = types;
+      })
+      .on('data', function(d) {
+        read++;
+      })
+      .on('finish', function(error) {
+        assert(!error, error);
+        assert.deepEqual(inferred, {
+          x: 'number',
+          y: 'string'
+        });
+        assert.equal(read, 100);
+        done();
+      });
+
+  });
+
 });

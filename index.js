@@ -8,8 +8,9 @@ module.exports = function(options) {
 
   var keys;
   var samples = [];
-  var limit = options.limit || 100;
-  var inferred = false;
+  var limit = (options.limit <= 0)
+    ? Number.POSITIVE_INFINITY
+    : options.limit || 100;
 
   var flush = function() {
     var types = type.inferAll(samples, options.fields);
@@ -19,8 +20,6 @@ module.exports = function(options) {
     samples.forEach(function(obj) {
       this.push(obj);
     }, this);
-
-    inferred = true;
   };
 
   return through(function infer(obj, enc, next) {
@@ -34,9 +33,10 @@ module.exports = function(options) {
       samples.push(obj);
       return next();
 
-    } else if (!inferred) {
+    } else if (flush) {
 
       flush.call(this);
+      flush = null;
 
     }
 
@@ -45,7 +45,7 @@ module.exports = function(options) {
   }, function(done) {
 
     // flush if we haven't inferred yet
-    if (!inferred) {
+    if (flush) {
       flush.call(this);
     }
 
